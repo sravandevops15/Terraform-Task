@@ -1,0 +1,152 @@
+Started by user sravan 
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/sample-web-application
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker inspect -f . node:16-alpine
+.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] withDockerContainer
+Jenkins does not seem to be running inside a container
+$ docker run -t -d -u 992:992 -w /var/lib/jenkins/workspace/sample-web-application -v /var/lib/jenkins/workspace/sample-web-application:/var/lib/jenkins/workspace/sample-web-application:rw,z -v /var/lib/jenkins/workspace/sample-web-application@tmp:/var/lib/jenkins/workspace/sample-web-application@tmp:rw,z -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** node:16-alpine cat
+$ docker top 67a5ba8a67a31c1ab5dc5d0136291ae9c445a9632441998b018921e175cd2b63 -eo pid,comm
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (git)
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+Warning: JENKINS-30600: special launcher org.jenkinsci.plugins.docker.workflow.WithContainerStep$Decorator$1@19859a1d; decorates hudson.Launcher$LocalLauncher@1742775d will be ignored (a typical symptom is the Git executable not being run inside a designated container)
+ > /usr/bin/git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/sample-web-application/.git # timeout=10
+Fetching changes from the remote Git repository
+ > /usr/bin/git config remote.origin.url https://github.com/sravandevops15/react-js.git # timeout=10
+Fetching upstream changes from https://github.com/sravandevops15/react-js.git
+ > /usr/bin/git --version # timeout=10
+ > git --version # 'git version 2.40.1'
+ > /usr/bin/git fetch --tags --force --progress -- https://github.com/sravandevops15/react-js.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > /usr/bin/git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 977937ee61fa951f6c138d0f2d627ad00e53d687 (refs/remotes/origin/master)
+ > /usr/bin/git config core.sparsecheckout # timeout=10
+ > /usr/bin/git checkout -f 977937ee61fa951f6c138d0f2d627ad00e53d687 # timeout=10
+ > /usr/bin/git branch -a -v --no-abbrev # timeout=10
+ > /usr/bin/git branch -D master # timeout=10
+ > /usr/bin/git checkout -b master 977937ee61fa951f6c138d0f2d627ad00e53d687 # timeout=10
+Commit message: "Create JenkinsFile"
+ > /usr/bin/git rev-list --no-walk 977937ee61fa951f6c138d0f2d627ad00e53d687 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (build)
+[Pipeline] sh
++ npm run build
+
+> react-deploy@0.1.0 build
+> react-scripts build
+
+Creating an optimized production build...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[0;33mOne of your dependencies, babel-preset-react-app, is importing the
+"@babel/plugin-proposal-private-property-in-object" package without
+declaring it in its dependencies. This is currently working because
+"@babel/plugin-proposal-private-property-in-object" is already in your
+node_modules folder for unrelated reasons, but it [1mmay break at any time[0;33m.
+
+babel-preset-react-app is part of the create-react-app project, [1mwhich
+is not maintianed anymore[0;33m. It is thus unlikely that this bug will
+ever be fixed. Add "@babel/plugin-proposal-private-property-in-object" to
+your devDependencies to work around this error. This will make this message
+go away.[0m
+  
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Compiled successfully.
+
+File sizes after gzip:
+
+  46.63 kB  build/static/js/main.737b4f57.js
+  1.78 kB   build/static/js/787.aad11d4d.chunk.js
+  515 B     build/static/css/main.f855e6bc.css
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  npm install -g serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (test)
+[Pipeline] sh
++ npm test
+
+> react-deploy@0.1.0 test
+> react-scripts test
+
+PASS src/App.test.js
+  ✓ renders learn react link (57 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        2.359 s
+Ran all test suites.
+Jest did not exit one second after the test run has completed.
+
+This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot this issue.
+[0;33mOne of your dependencies, babel-preset-react-app, is importing the
+"@babel/plugin-proposal-private-property-in-object" package without
+declaring it in its dependencies. This is currently working because
+"@babel/plugin-proposal-private-property-in-object" is already in your
+node_modules folder for unrelated reasons, but it [1mmay break at any time[0;33m.
+
+babel-preset-react-app is part of the create-react-app project, [1mwhich
+is not maintianed anymore[0;33m. It is thus unlikely that this bug will
+ever be fixed. Add "@babel/plugin-proposal-private-property-in-object" to
+your devDependencies to work around this error. This will make this message
+go away.[0m
+  
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (deploy-compute-instance)
+[Pipeline] sh
++ cd /var/lib/jenkins/workspace/sample-web-application
++ npm run test
+
+> react-deploy@0.1.0 test
+> react-scripts test
+
+PASS src/App.test.js
+  ✓ renders learn react link (55 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        1.777 s, estimated 2 s
+Ran all test suites.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+$ docker stop --time=1 67a5ba8a67a31c1ab5dc5d0136291ae9c445a9632441998b018921e175cd2b63
+$ docker rm -f --volumes 67a5ba8a67a31c1ab5dc5d0136291ae9c445a9632441998b018921e175cd2b63
+[Pipeline] // withDockerContainer
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
